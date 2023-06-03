@@ -1,0 +1,27 @@
+## Assuming the .travis.yml file is in the project directory, and there is a separate sub-directory for each service
+## Use either `docker-compose` or individual `docker build` commands
+language: node_js
+node_js:
+  - 13
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+services:
+  - docker
+script:
+  ## Build
+  - docker-compose -f docker-compose-build.yaml build --parallel
+  ## Tagging
+  - docker tag udagram-api-feed ryannhn/udagram-api-feed:v1
+  - docker tag udagram-api-user ryannhn/udagram-api-user:v1
+  - docker tag udagram-frontend:local ryannhn/udagram-frontend:v1
+  - docker tag reverseproxy ryannhn/reverseproxy:v1
+  ## Push
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push ryannhn/udagram-api-feed:v1
+  - docker push ryannhn/udagram-api-user:v1
+  - docker push ryannhn/udagram-frontend:v1
+  - docker push ryannhn/udagram-reverseproxy:v1
