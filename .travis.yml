@@ -24,4 +24,4 @@ script:
   - docker push ryannhn/udagram-api-feed:v1
   - docker push ryannhn/udagram-api-user:v1
   - docker push ryannhn/udagram-frontend:v1
-  - docker push ryannhn/udagram-reverseproxy:v1
+  - docker push ryannhn/reverseproxy:v1
